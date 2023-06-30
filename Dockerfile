@@ -8,7 +8,7 @@ RUN apt update -y && apt upgrade -y \
     python3 python3-pip python3-venv \
     gcc-arm-none-eabi libnewlib-arm-none-eabi \
     build-essential checkinstall zlib1g-dev libssl-dev \
-    automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev
+    automake autoconf build-essential texinfo libtool libftdi-dev libusb-1.0-0-dev pkg-config
     
 RUN cd /pico && wget https://github.com/Kitware/CMake/releases/download/v3.23.3/cmake-3.23.3.tar.gz \
     && tar -zxvf cmake-3.23.3.tar.gz \
