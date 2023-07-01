@@ -17,8 +17,24 @@ RUN cd /pico && wget https://github.com/Kitware/CMake/releases/download/v3.23.3/
     && make && make install && hash -r \
     && cmake --version
 
-RUN cd /pico && chmod +x install.sh \
-    && ./install.sh
+#RUN cd /pico && chmod +x install.sh \
+#    && ./install.sh
+
+
+RUN cd /pico \
+    && git clone https://github.com/raspberrypi/pico-sdk.git --branch master \
+    && cd /pico/pico-sdk \
+    && git submodule update --init \
+    && git pull \
+    && git submodule update \
+    && cd /pico \
+    && git clone https://github.com/raspberrypi/pico-examples.git --branch master \
+    && cd /pico/pico-examples \
+    && mkdir build && cd build \
+    && export PICO_SDK_PATH=/pico/pico-sdk \
+    && cmake .. \
+    && make -j4 \
+    && echo "export PICO_SDK_PATH=/pico/pico-sdk" >> ~/.bashrc
 
 #RUN cd /root \
 #    && wget https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh \
