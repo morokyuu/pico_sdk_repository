@@ -17,10 +17,6 @@ RUN cd /pico && wget https://github.com/Kitware/CMake/releases/download/v3.23.3/
     && make && make install && hash -r \
     && cmake --version
 
-#RUN cd /pico && chmod +x install.sh \
-#    && ./install.sh
-
-
 RUN cd /pico \
     && git clone https://github.com/raspberrypi/pico-sdk.git --branch master \
     && cd /pico/pico-sdk \
@@ -36,12 +32,22 @@ RUN cd /pico \
     && make -j4 \
     && echo "export PICO_SDK_PATH=/pico/pico-sdk" >> ~/.bashrc
 
-#RUN cd /root \
-#    && wget https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh \
-#    && chmod +x pico_setup.sh \
-#    && export SKIP_VSCODE=1 \
-#    && export SKIP_UART=1 \
-#    && ./pico_setup.sh
+RUN cd /pico \
+	&& git clone https://github.com/raspberrypi/openocd.git --branch rp2040 --depth=1 \
+	&& cd /pico/openocd \
+	&& ./bootstrap \
+	&& ./configure \
+	&& make -j4
+
+RUN cd /pico \
+	&& git clone https://github.com/raspberrypi/picotool.git --branch master \
+	&& cd /pico/picotool \
+	&& mkdir build \
+	&& cd build \
+	&& export PICO_SDK_PATH=/pico/pico-sdk \
+	&& cmake ../ \
+	&& make -j4 \
+    && cp ./picotool /usr/local/bin
 
 
 
