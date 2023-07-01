@@ -37,7 +37,8 @@ RUN cd /pico \
 	&& cd /pico/openocd \
 	&& ./bootstrap \
 	&& ./configure \
-	&& make -j4
+	&& make -j4 \
+    && make install
 
 RUN cd /pico \
 	&& git clone https://github.com/raspberrypi/picotool.git --branch master \
